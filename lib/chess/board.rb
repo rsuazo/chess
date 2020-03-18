@@ -1,8 +1,9 @@
 class Board
+  
   attr_reader :grid
   def initialize(input = {})
     @grid = input.fetch(:grid, default_grid)
-    set_board
+    # set_board
   end
 
   def get_cell(x, y)
@@ -26,6 +27,7 @@ class Board
   end
 
   def set_board
+
     white_pawns = ["\u2659", "\u2659", "\u2659", "\u2659", "\u2659", "\u2659", "\u2659", "\u2659"]
     white_pieces = ["\u2656", "\u2658", "\u2657", "\u2654", "\u2655", "\u2657", "\u2658", "\u2656"]
     
