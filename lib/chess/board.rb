@@ -65,9 +65,14 @@ class Board
     black_pieces.each { |piece| 
     set_cell(x,7,black_pieces[x])
     x+=1
-  }
+    }
   end
 
+  def move_piece(start, finish)
+    x = get_cell(*start).value
+    set_cell(*start, '')
+    set_cell(*finish, x)
+  end
 
   private
 
