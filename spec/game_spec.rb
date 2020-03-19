@@ -13,4 +13,16 @@ RSpec.describe Game do
       expect(game.solicit_move).to eq expected
     end
   end
+
+  TestCell = Struct.new(:value)
+  let(:x_cell) { TestCell.new("X") }
+  let(:y_cell) { TestCell.new("Y") }
+  let(:empty) { TestCell.new }
+
+  describe "#get_move" do
+
+    it "converts human_move of 'd3' to [3, 2]" do
+      expect(game.get_move("d3")).to eq [3, 2]
+    end
+  end
 end

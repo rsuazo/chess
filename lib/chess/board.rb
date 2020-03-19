@@ -3,7 +3,7 @@ class Board
   attr_reader :grid
   def initialize(input = {})
     @grid = input.fetch(:grid, default_grid)
-    # set_board
+    set_board
   end
 
   def get_cell(x, y)
@@ -28,39 +28,46 @@ class Board
 
   def set_board
 
-    white_pawns = ["\u2659", "\u2659", "\u2659", "\u2659", "\u2659", "\u2659", "\u2659", "\u2659"]
-    white_pieces = ["\u2656", "\u2658", "\u2657", "\u2654", "\u2655", "\u2657", "\u2658", "\u2656"]
+    pieces = {
+      white_pawn: "\u2659",
+      white_rook: "\u2656",
+      white_knight: "\u2658",
+      white_bishop: "\u2657",
+      white_king: "\u2654",
+      white_queen: "\u2655",
+      black_pawn: "\u265F",
+      black_rook: "\u265C",
+      black_knight: "\u265E",
+      black_bishop: "\u265D",
+      black_king: "\u265A",
+      black_queen: "\u265B"
+    }
     
-    black_pawns = ["\u265F", "\u265F", "\u265F", "\u265F", "\u265F", "\u265F", "\u265F", "\u265F"]
+    white_pieces = ["\u2656", "\u2658", "\u2657", "\u2654", "\u2655", "\u2657", "\u2658", "\u2656"]
     black_pieces = ["\u265C", "\u265E", "\u265D", "\u265A", "\u265B", "\u265D", "\u265E", "\u265C"]
     
     x = 0
     y = 0
+
+    8.times {
+      set_cell(y, 1, pieces[:white_pawn])
+      set_cell(y, 6, pieces[:black_pawn])
+      y+=1
+    }
 
     white_pieces.each { |piece| 
       set_cell(x,0,white_pieces[x])
       x+=1
     }
 
-    white_pawns.each { |piece| 
-      set_cell(y,1,white_pawns[y])
-      y+=1
-    }
-
     x = 0
-    y = 0
 
     black_pieces.each { |piece| 
-      set_cell(x,7,black_pieces[x])
-      x+=1
-    }
-
-    black_pawns.each { |piece| 
-      set_cell(y,6,black_pawns[y])
-      y+=1
-    }
-
+    set_cell(x,7,black_pieces[x])
+    x+=1
+  }
   end
+
 
   private
 

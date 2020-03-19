@@ -16,16 +16,19 @@ class Game
   end
 
   def human_move_to_coordinate(human_move)
-    x = human_move.to_i - 1
-    y = 5
 
-    while y >= 0 do
-      if board.get_cell(x, y).value == ''
-        return [x, y]
-      else
-        y -= 1
-      end
-    end
+    letter_to_num = {
+      'a' => 0,
+      'b' => 1,
+      'c' => 2,
+      'd' => 3,
+      'e' => 4,
+      'f' => 5,
+      'g' => 6,
+      'h' => 7
+    }
+
+    [letter_to_num[human_move[0].downcase], human_move[1].to_i - 1]
   end
   
 end
