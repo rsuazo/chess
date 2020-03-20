@@ -69,9 +69,19 @@ class Board
   end
 
   def move_piece(start, finish)
-    x = get_cell(*start).value
+    set_cell(*finish, get_cell(*start).value)
     set_cell(*start, '')
-    set_cell(*finish, x)
+    true
+  end
+
+  def valid_move?
+    # first grab value of the start piece
+    #grab the value of the end square
+    # if value of square is '' && move is valid move piece there.
+    # else puts 'invalid move'
+
+    # return true if valid
+    false
   end
 
   private
