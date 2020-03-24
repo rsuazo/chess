@@ -48,6 +48,18 @@ class Board
     white_pieces = ["\u2656", "\u2658", "\u2657", "\u2654", "\u2655", "\u2657", "\u2658", "\u2656"]
     black_pieces = ["\u265C", "\u265E", "\u265D", "\u265A", "\u265B", "\u265D", "\u265E", "\u265C"]
     
+    a = 2
+    b = 0
+
+    4.times {
+      8.times {
+        set_cell(a, b, '')
+        b += 1
+      }
+      b = 0
+      a += 1
+    }
+
     x = 0
     y = 0
 
@@ -71,9 +83,12 @@ class Board
   end
 
   def move_piece(start, finish)
-    set_cell(*finish, get_cell(*start).value)
-    set_cell(*start, '')
-    true
+    if valid_move?(start, finish)
+      set_cell(*finish, get_cell(*start).value)
+      set_cell(*start, '')
+    else
+      false
+    end
   end
 
   def valid_move?(start, finish)
@@ -82,7 +97,9 @@ class Board
     y = get_cell(*finish)
     
     if x.generate_moves.any? { |move| move == y }
-      return "test"
+      true
+    else
+      false
     end
     #first grab value of the start piece
     # grab the value of the end square
@@ -90,7 +107,6 @@ class Board
     # else puts 'invalid move'
 
     # return true if valid
-    false
   end
 
   private
