@@ -12,6 +12,8 @@ class Board
 
   def set_cell(x, y, value)
     get_cell(x, y).value = value
+    get_cell(x, y).x = x
+    get_cell(x, y).y = y
   end
 
   def game_over
@@ -74,9 +76,16 @@ class Board
     true
   end
 
-  def valid_move?
-    # first grab value of the start piece
-    #grab the value of the end square
+  def valid_move?(start, finish)
+    # first grab the cell in question
+    x = get_cell(*start)
+    y = get_cell(*finish)
+    
+    if x.generate_moves.any? { |move| move == y }
+      return "test"
+    end
+    #first grab value of the start piece
+    # grab the value of the end square
     # if value of square is '' && move is valid move piece there.
     # else puts 'invalid move'
 
@@ -87,7 +96,7 @@ class Board
   private
 
   def default_grid
-    Array.new(8) { Array.new(8) { Cell.new } }
+    Array.new(8) { Array.new(8) { Cell.new(0,0) } }
   end
 
   def draw?
