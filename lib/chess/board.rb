@@ -1,19 +1,35 @@
 class Board
   
-  attr_reader :grid
+  attr_reader :grid, :pieces
   def initialize(input = {})
     @grid = input.fetch(:grid, default_grid)
+    @pieces = {
+      white_pawn: "\u2659",
+      white_rook: "\u2656",
+      white_knight: "\u2658",
+      white_bishop: "\u2657",
+      white_king: "\u2654",
+      white_queen: "\u2655",
+      black_pawn: "\u265F",
+      black_rook: "\u265C",
+      black_knight: "\u265E",
+      black_bishop: "\u265D",
+      black_king: "\u265A",
+      black_queen: "\u265B"
+    }
     set_board
+
   end
 
   def get_cell(x, y)
     grid[y][x]
   end
 
-  def set_cell(x, y, value)
+  def set_cell(x, y, value, color)
     get_cell(x, y).value = value
     get_cell(x, y).x = x
     get_cell(x, y).y = y
+    get_cell(x, y).color = color
   end
 
   def game_over
@@ -29,22 +45,7 @@ class Board
   end
 
   def set_board
-
-    pieces = {
-      white_pawn: "\u2659",
-      white_rook: "\u2656",
-      white_knight: "\u2658",
-      white_bishop: "\u2657",
-      white_king: "\u2654",
-      white_queen: "\u2655",
-      black_pawn: "\u265F",
-      black_rook: "\u265C",
-      black_knight: "\u265E",
-      black_bishop: "\u265D",
-      black_king: "\u265A",
-      black_queen: "\u265B"
-    }
-    
+ 
     white_pieces = ["\u2656", "\u2658", "\u2657", "\u2654", "\u2655", "\u2657", "\u2658", "\u2656"]
     black_pieces = ["\u265C", "\u265E", "\u265D", "\u265A", "\u265B", "\u265D", "\u265E", "\u265C"]
     
@@ -53,7 +54,7 @@ class Board
 
     4.times {
       8.times {
-        set_cell(a, b, '')
+        set_cell(a, b, '', '')
         b += 1
       }
       b = 0
@@ -64,28 +65,29 @@ class Board
     y = 0
 
     8.times {
-      set_cell(y, 1, pieces[:white_pawn])
-      set_cell(y, 6, pieces[:black_pawn])
+      set_cell(y, 1, pieces[:white_pawn], 'white')
+      set_cell(y, 6, pieces[:black_pawn], 'black')
       y+=1
     }
 
     white_pieces.each { |piece| 
-      set_cell(x,0,white_pieces[x])
+      set_cell(x,0, white_pieces[x], 'white')
       x+=1
     }
 
     x = 0
 
     black_pieces.each { |piece| 
-    set_cell(x,7,black_pieces[x])
+    set_cell(x,7,black_pieces[x], 'black')
     x+=1
     }
   end
 
   def move_piece(start, finish)
     if valid_move?(start, finish)
-      set_cell(*finish, get_cell(*start).value)
-      set_cell(*start, '')
+      set_cell(*finish, get_cell(*start).value, get_cell(*start).color)
+      set_cell(*start, '', '')
+      return "i moved a piece!"
     else
       false
     end
@@ -99,14 +101,37 @@ class Board
     #if value of start is empty, false
     return false if x.value == ''
 
-    #if finish is empty & finish is a possible move FOR THAT PIECE, return true
-    if y.value == '' && x.generate_moves.any? { |move| move == y }
-      true
-    elsif #y.value is opposite color of x.value && x.generate_moves.any? { |move| move == y}
-      #do battle
+    case x.value
+    when pieces[:white_knight]
+      if y.value == '' && x.generate_knight_moves.any? { |move| move == y }
+        true
+      elsif x.color != y.color && x.generate_knight_moves.any? { |move| move == y }
+        true
+      else
+        false
+      end
+    when pieces[:black_pawn]
+    when pieces[:white_pawn]
+    when pieces[:black_knight]
+    when pieces[:white_rook]
+    when pieces[:black_rook]
+    when pieces[:white_bishop]
+    when pieces[:black_bishop]
+    when pieces[:white_queen]
+    when pieces[:black_queen]
+    when pieces[:white_king]
+    when pieces[:black_king]
     else
-      false
     end
+
+    #if finish is empty & finish is a possible move FOR THAT PIECE, return true
+    # if y.value == '' && x.generate_knight_moves.any? { |move| move == y }
+    #   true
+    # elsif #y.value is opposite color of x.value && x.generate_moves.any? { |move| move == y}
+    #   #do battle
+    # else
+    #   false
+    # end
 
   end
 

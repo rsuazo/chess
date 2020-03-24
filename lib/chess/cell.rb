@@ -1,8 +1,9 @@
 class Cell
-  attr_accessor :value, :x, :y
-  def initialize(x, y, value = '')
+  attr_accessor :value, :x, :y, :color
+  def initialize(x, y, value = '', color = '')
     @value = value
     @y, @x = x, y
+    @color = color
   end
 
   def to_s
@@ -17,7 +18,7 @@ class Cell
     (0..7) === @x && (0..7) === @y
   end
 
-  def generate_moves
+  def generate_knight_moves
     a = Cell.new(@x - 1, @y + 2)
     b = Cell.new(@x + 1, @y + 2)
     c = Cell.new(@x - 1, @y - 2)
