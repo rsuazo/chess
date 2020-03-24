@@ -95,18 +95,19 @@ class Board
     # first grab the cell in question
     x = get_cell(*start)
     y = get_cell(*finish)
-    
-    if x.generate_moves.any? { |move| move == y }
+
+    #if value of start is empty, false
+    return false if x.value == ''
+
+    #if finish is empty & finish is a possible move FOR THAT PIECE, return true
+    if y.value == '' && x.generate_moves.any? { |move| move == y }
       true
+    elsif #y.value is opposite color of x.value && x.generate_moves.any? { |move| move == y}
+      #do battle
     else
       false
     end
-    #first grab value of the start piece
-    # grab the value of the end square
-    # if value of square is '' && move is valid move piece there.
-    # else puts 'invalid move'
 
-    # return true if valid
   end
 
   private
