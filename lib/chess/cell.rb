@@ -25,6 +25,8 @@ class Cell
       a = Cell.new(@x, @y + 1)
       b = Cell.new(@x, @y + 2)
       list = [a,b]
+    elsif @y == 7
+      puts "choose a new piece!"
     else
       a = Cell.new(@x, @y + 1)
       list = [a]
@@ -42,6 +44,8 @@ class Cell
       a = Cell.new(@x, @y - 1)
       b = Cell.new(@x, @y - 2)
       list = [a,b]
+    elsif @y == 0
+      puts "choose a new piece!"
     else
       a = Cell.new(@x, @y - 1)
       list = [a]
@@ -70,17 +74,17 @@ class Cell
   end
 
   def generate_rook_moves
-    a = Cell.new(@x - 1, @y + 2)
-    b = Cell.new(@x + 1, @y + 2)
-    c = Cell.new(@x - 1, @y - 2)
-    d = Cell.new(@x + 1, @y - 2)
-    e = Cell.new(@x + 2, @y + 1)
-    f = Cell.new(@x + 2, @y - 1)
-    g = Cell.new(@x - 2, @y + 1)
-    h = Cell.new(@x - 2, @y - 1)
+    list = []
+    a = 1
 
-    list = [a,b,c,d,e,f,g,h]
-    
+    7.times {
+      list << Cell.new(@x + a, @y)
+      list << Cell.new(@x - a, @y)
+      list << Cell.new(@x, @y + a)
+      list << Cell.new(@x, @y - a)
+      a += 1
+    }
+
     list.reject! { |item| !item.valid? }
 
     list

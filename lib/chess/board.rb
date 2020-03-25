@@ -135,6 +135,13 @@ class Board
         false
       end
     when pieces[:white_rook]
+      if y.value == '' && x.generate_rook_moves.any? { |move| move == y }
+        true
+      elsif x.color != y.color && x.generate_rook_moves.any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:black_rook]
     when pieces[:white_bishop]
     when pieces[:black_bishop]
