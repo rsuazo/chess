@@ -2,7 +2,7 @@ class Cell
   attr_accessor :value, :x, :y, :color
   def initialize(x, y, value = '', color = '')
     @value = value
-    @y, @x = x, y
+    @x, @y = x, y
     @color = color
   end
 
@@ -18,7 +18,109 @@ class Cell
     (0..7) === @x && (0..7) === @y
   end
 
+  def generate_white_pawn_moves
+    list = []
+    
+    if @y == 1
+      a = Cell.new(@x, @y + 1)
+      b = Cell.new(@x, @y + 2)
+      list = [a,b]
+    else
+      a = Cell.new(@x, @y + 1)
+      list = [a]
+    end
+    
+    list.reject! { |item| !item.valid? }
+
+    list
+  end
+
+  def generate_black_pawn_moves
+    list = []
+    
+    if @y == 6
+      a = Cell.new(@x, @y - 1)
+      b = Cell.new(@x, @y - 2)
+      list = [a,b]
+    else
+      a = Cell.new(@x, @y - 1)
+      list = [a]
+    end
+    
+    list.reject! { |item| !item.valid? }
+
+    list
+  end
+
   def generate_knight_moves
+    a = Cell.new(@x - 1, @y + 2)
+    b = Cell.new(@x + 1, @y + 2)
+    c = Cell.new(@x - 1, @y - 2)
+    d = Cell.new(@x + 1, @y - 2)
+    e = Cell.new(@x + 2, @y + 1)
+    f = Cell.new(@x + 2, @y - 1)
+    g = Cell.new(@x - 2, @y + 1)
+    h = Cell.new(@x - 2, @y - 1)
+
+    list = [a,b,c,d,e,f,g,h]
+    
+    list.reject! { |item| !item.valid? }
+
+    list
+  end
+
+  def generate_rook_moves
+    a = Cell.new(@x - 1, @y + 2)
+    b = Cell.new(@x + 1, @y + 2)
+    c = Cell.new(@x - 1, @y - 2)
+    d = Cell.new(@x + 1, @y - 2)
+    e = Cell.new(@x + 2, @y + 1)
+    f = Cell.new(@x + 2, @y - 1)
+    g = Cell.new(@x - 2, @y + 1)
+    h = Cell.new(@x - 2, @y - 1)
+
+    list = [a,b,c,d,e,f,g,h]
+    
+    list.reject! { |item| !item.valid? }
+
+    list
+  end
+
+  def generate_bishop_moves
+    a = Cell.new(@x - 1, @y + 2)
+    b = Cell.new(@x + 1, @y + 2)
+    c = Cell.new(@x - 1, @y - 2)
+    d = Cell.new(@x + 1, @y - 2)
+    e = Cell.new(@x + 2, @y + 1)
+    f = Cell.new(@x + 2, @y - 1)
+    g = Cell.new(@x - 2, @y + 1)
+    h = Cell.new(@x - 2, @y - 1)
+
+    list = [a,b,c,d,e,f,g,h]
+    
+    list.reject! { |item| !item.valid? }
+
+    list
+  end
+
+  def generate_queen_moves
+    a = Cell.new(@x - 1, @y + 2)
+    b = Cell.new(@x + 1, @y + 2)
+    c = Cell.new(@x - 1, @y - 2)
+    d = Cell.new(@x + 1, @y - 2)
+    e = Cell.new(@x + 2, @y + 1)
+    f = Cell.new(@x + 2, @y - 1)
+    g = Cell.new(@x - 2, @y + 1)
+    h = Cell.new(@x - 2, @y - 1)
+
+    list = [a,b,c,d,e,f,g,h]
+    
+    list.reject! { |item| !item.valid? }
+
+    list
+  end
+
+  def generate_king_moves
     a = Cell.new(@x - 1, @y + 2)
     b = Cell.new(@x + 1, @y + 2)
     c = Cell.new(@x - 1, @y - 2)

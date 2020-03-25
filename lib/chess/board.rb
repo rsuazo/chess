@@ -49,16 +49,16 @@ class Board
     white_pieces = ["\u2656", "\u2658", "\u2657", "\u2654", "\u2655", "\u2657", "\u2658", "\u2656"]
     black_pieces = ["\u265C", "\u265E", "\u265D", "\u265A", "\u265B", "\u265D", "\u265E", "\u265C"]
     
-    a = 2
-    b = 0
+    a = 0
+    b = 2
 
     4.times {
       8.times {
         set_cell(a, b, '', '')
-        b += 1
+        a += 1
       }
-      b = 0
-      a += 1
+      a = 0
+      b += 1
     }
 
     x = 0
@@ -102,6 +102,22 @@ class Board
     return false if x.value == ''
 
     case x.value
+    when pieces[:black_pawn]
+      if y.value == '' && x.generate_black_pawn_moves.any? { |move| move == y }
+        true
+      elsif x.color != y.color && x.generate_black_pawn_moves.any? { |move| move == y }
+        true
+      else
+        false
+      end
+    when pieces[:white_pawn]
+      if y.value == '' && x.generate_white_pawn_moves.any? { |move| move == y }
+        true
+      elsif x.color != y.color && x.generate_white_pawn_moves.any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:white_knight]
       if y.value == '' && x.generate_knight_moves.any? { |move| move == y }
         true
@@ -110,9 +126,14 @@ class Board
       else
         false
       end
-    when pieces[:black_pawn]
-    when pieces[:white_pawn]
     when pieces[:black_knight]
+      if y.value == '' && x.generate_knight_moves.any? { |move| move == y }
+        true
+      elsif x.color != y.color && x.generate_knight_moves.any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:white_rook]
     when pieces[:black_rook]
     when pieces[:white_bishop]
@@ -123,15 +144,6 @@ class Board
     when pieces[:black_king]
     else
     end
-
-    #if finish is empty & finish is a possible move FOR THAT PIECE, return true
-    # if y.value == '' && x.generate_knight_moves.any? { |move| move == y }
-    #   true
-    # elsif #y.value is opposite color of x.value && x.generate_moves.any? { |move| move == y}
-    #   #do battle
-    # else
-    #   false
-    # end
 
   end
 
