@@ -135,14 +135,22 @@ class Board
         false
       end
     when pieces[:white_rook]
-      if y.value == '' && x.generate_rook_moves.any? { |move| move == y }
+
+      if y.value == '' && generate_rook_moves(start, finish).any? { |move| move == y }
         true
-      elsif x.color != y.color && x.generate_rook_moves.any? { |move| move == y }
+      elsif x.color != y.color && generate_rook_moves(start, finish).any? { |move| move == y }
         true
       else
         false
       end
     when pieces[:black_rook]
+      if y.value == '' && generate_rook_moves(start, finish).any? { |move| move == y }
+        true
+      elsif x.color != y.color && generate_rook_moves(start, finish).any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:white_bishop]
     when pieces[:black_bishop]
     when pieces[:white_queen]
@@ -152,6 +160,123 @@ class Board
     else
     end
 
+  end
+
+  def generate_rook_moves(start, finish, list = [], start_cell = get_cell(*start))
+
+    x_diff = finish[0] - start[0]
+    y_diff = finish[1] - start[1]
+
+    
+    return false if !valid?(*start) || !valid?(*finish)
+    return false if x_diff != 0 && y_diff != 0
+
+
+    list << get_cell(*start)
+
+    return list if get_cell(*start).value != '' && get_cell(*start) != start_cell
+
+
+    return list if start == finish
+
+    if x_diff == 0
+      if y_diff > 0
+        start = [start[0], start[1] + 1]
+        generate_rook_moves(start, finish, list, start_cell)
+      else
+        start = [start[0], start[1] - 1]
+        generate_rook_moves(start, finish, list, start_cell)
+      end
+    else
+      if x_diff > 0
+        start = [start[0] + 1, start[1]]
+        generate_rook_moves(start, finish, list, start_cell)
+      else
+        start = [start[0] - 1, start[1]]
+        generate_rook_moves(start, finish, list, start_cell)
+      end
+    end
+
+  end
+
+  # def test(start, finish, list = [], start_cell = get_cell(0,0))
+    
+  #   return list if !valid?(*start) || !valid?(*finish)
+
+  #   return list if get_cell(*start).value != '' && get_cell(*start) !=  start_cell
+
+  #   return list if 
+  #   if get_cell(*start).value == ''
+  #     list << get_cell(x, y)
+  #   end
+
+  #   # test(x + 1, y = 0, list)
+  #   # test(x - 1, y = 0, list)
+  #   test(start, finish + 1, list)
+  #   # test(x = 0, y - 1, list)
+
+
+  # end
+
+  # def test(x = 0, y = 0, list = [], start_cell = get_cell(0,0))
+
+  #   return list if !valid?(x,y)
+
+  #   return list if list.any? { |move| move == get_cell(x, y) }
+    
+  #   return list if get_cell(x, y).value != '' && get_cell(x, y) !=  start_cell
+
+  #   if get_cell(x,y) != start_cell
+  #     list << get_cell(x, y)
+  #   end
+
+  #   test(x + 1, y = 0, list)
+  #   # test(x - 1, y = 0, list)
+  #   test(x = 0, y + 1, list)
+  #   # test(x = 0, y - 1, list)
+
+  # end
+
+  def test_2(x = 0, y = 0, list = [], start_cell = get_cell(0,0))
+
+    return list if !valid?(x, y)
+    
+    return list if get_cell(x, y).value != '' && get_cell(x, y) !=  start_cell
+
+    if get_cell(x,y) != start_cell
+      list << get_cell(x, y)
+    end
+
+    test_2(x + 1, y = 0, list)
+    # test(x - 1, y = 0, list)
+    # test(x = 0, y + 1, list)
+    # test(x = 0, y - 1, list)
+
+  end
+
+  def test_3
+    list = test_1 + test_2
+  end
+
+  # def test_2(x,y)
+  #   list = []
+  #   a = 0
+  #   b = 0
+
+  #   4.times {
+  #     while valid?(x + a, y) do
+  #       if get_cell(x, y).value != '' && get_cell(x, y) !=  start_cell
+  #         list << get_cell(x + a, y)
+  #       end
+  #       a += 1
+  #     end
+  #   }
+
+  #   list
+  # end
+
+  def valid?(x, y)
+    (0..7) === x && (0..7) === y
   end
 
   private
