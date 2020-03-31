@@ -45,16 +45,27 @@ describe Board do
   #   end
   # end
 
-  describe '#generate_rook_moves' do
-    it 'generate_rook_moves recursive function' do
-      board = Board.new
-      start = [0,0]
-      finish = [0,5]
-      board.move_piece([0,1],[0,3])
+  # describe '#generate_rook_moves' do
+  #   it 'generate_rook_moves recursive function' do
+  #     board = Board.new
+  #     start = [0,0]
+  #     finish = [0,5]
+  #     board.move_piece([0,1],[0,3])
 
-      expect(board.generate_rook_moves(start, finish)).to eq []
-    end
+  #     expect(board.generate_rook_moves(start, finish)).to eq []
+  #   end
+  # end
+
+  describe '#generate_bishop_moves' do
+  it 'generate_bishop_moves recursive function' do
+    board = Board.new
+    start = [2,0]
+    finish = [0,2]
+    board.move_piece([1,1],[1,3])
+
+    expect(board.generate_bishop_moves(start, finish)).to eq []
   end
+end
 
 
   # TestCell = Struct.new(:value)

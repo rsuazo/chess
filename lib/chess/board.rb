@@ -87,7 +87,7 @@ class Board
     if valid_move?(start, finish)
       set_cell(*finish, get_cell(*start).value, get_cell(*start).color)
       set_cell(*start, '', '')
-      return "i moved a piece!"
+      true
     else
       false
     end
@@ -152,7 +152,21 @@ class Board
         false
       end
     when pieces[:white_bishop]
+      if y.value == '' && generate_bishop_moves(start, finish).any? { |move| move == y }
+        true
+      elsif x.color != y.color && generate_bishop_moves(start, finish).any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:black_bishop]
+      if y.value == '' && generate_bishop_moves(start, finish).any? { |move| move == y }
+        true
+      elsif x.color != y.color && generate_bishop_moves(start, finish).any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:white_queen]
     when pieces[:black_queen]
     when pieces[:white_king]
@@ -199,82 +213,42 @@ class Board
 
   end
 
-  # def test(start, finish, list = [], start_cell = get_cell(0,0))
-    
-  #   return list if !valid?(*start) || !valid?(*finish)
+  def generate_bishop_moves(start, finish, list = [], start_cell = get_cell(*start))
 
-  #   return list if get_cell(*start).value != '' && get_cell(*start) !=  start_cell
+    return false if !valid?(*start) || !valid?(*finish)
 
-  #   return list if 
-  #   if get_cell(*start).value == ''
-  #     list << get_cell(x, y)
-  #   end
+    x_diff = finish[0] - start[0]
+    y_diff = finish[1] - start[1]
 
-  #   # test(x + 1, y = 0, list)
-  #   # test(x - 1, y = 0, list)
-  #   test(start, finish + 1, list)
-  #   # test(x = 0, y - 1, list)
+    list << get_cell(*start)
+
+    return list if x_diff == 0 || y_diff == 0 
+
+    return list if get_cell(*start).value != '' && get_cell(*start) != start_cell
 
 
-  # end
+    return list if start == finish
 
-  # def test(x = 0, y = 0, list = [], start_cell = get_cell(0,0))
-
-  #   return list if !valid?(x,y)
-
-  #   return list if list.any? { |move| move == get_cell(x, y) }
-    
-  #   return list if get_cell(x, y).value != '' && get_cell(x, y) !=  start_cell
-
-  #   if get_cell(x,y) != start_cell
-  #     list << get_cell(x, y)
-  #   end
-
-  #   test(x + 1, y = 0, list)
-  #   # test(x - 1, y = 0, list)
-  #   test(x = 0, y + 1, list)
-  #   # test(x = 0, y - 1, list)
-
-  # end
-
-  def test_2(x = 0, y = 0, list = [], start_cell = get_cell(0,0))
-
-    return list if !valid?(x, y)
-    
-    return list if get_cell(x, y).value != '' && get_cell(x, y) !=  start_cell
-
-    if get_cell(x,y) != start_cell
-      list << get_cell(x, y)
+    if x_diff < 0
+      if y_diff > 0
+        start = [start[0] - 1, start[1] + 1]
+        generate_bishop_moves(start, finish, list, start_cell)
+      else
+        start = [start[0] - 1, start[1] - 1]
+        generate_bishop_moves(start, finish, list, start_cell)
+      end
+    else
+      if y_diff > 0
+        start = [start[0] + 1, start[1] + 1]
+        generate_bishop_moves(start, finish, list, start_cell)
+      else
+        start = [start[0] + 1, start[1] - 1]
+        generate_bishop_moves(start, finish, list, start_cell)
+      end
     end
 
-    test_2(x + 1, y = 0, list)
-    # test(x - 1, y = 0, list)
-    # test(x = 0, y + 1, list)
-    # test(x = 0, y - 1, list)
-
   end
-
-  def test_3
-    list = test_1 + test_2
-  end
-
-  # def test_2(x,y)
-  #   list = []
-  #   a = 0
-  #   b = 0
-
-  #   4.times {
-  #     while valid?(x + a, y) do
-  #       if get_cell(x, y).value != '' && get_cell(x, y) !=  start_cell
-  #         list << get_cell(x + a, y)
-  #       end
-  #       a += 1
-  #     end
-  #   }
-
-  #   list
-  # end
-
+  
   def valid?(x, y)
     (0..7) === x && (0..7) === y
   end
