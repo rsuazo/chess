@@ -168,7 +168,21 @@ class Board
         false
       end
     when pieces[:white_queen]
+      if y.value == '' && generate_queen_moves(start, finish).any? { |move| move == y }
+        true
+      elsif x.color != y.color && generate_queen_moves(start, finish).any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:black_queen]
+      if y.value == '' && generate_queen_moves(start, finish).any? { |move| move == y }
+        true
+      elsif x.color != y.color && generate_queen_moves(start, finish).any? { |move| move == y }
+        true
+      else
+        false
+      end
     when pieces[:white_king]
     when pieces[:black_king]
     else
@@ -245,6 +259,56 @@ class Board
         start = [start[0] + 1, start[1] - 1]
         generate_bishop_moves(start, finish, list, start_cell)
       end
+    end
+
+  end
+
+  def generate_queen_moves(start, finish, list = [], start_cell = get_cell(*start))
+
+    return false if !valid?(*start) || !valid?(*finish)
+
+    x_diff = finish[0] - start[0]
+    y_diff = finish[1] - start[1]
+
+    list << get_cell(*start)
+
+    # return list if x_diff == 0 || y_diff == 0 
+
+    return list if get_cell(*start).value != '' && get_cell(*start) != start_cell
+
+    return list if start == finish
+
+    if x_diff < 0
+      if y_diff > 0
+        start = [start[0] - 1, start[1] + 1]
+        generate_queen_moves(start, finish, list, start_cell)
+      elsif y_diff < 0
+        start = [start[0] - 1, start[1] - 1]
+        generate_queen_moves(start, finish, list, start_cell)
+      elsif y_diff == 0
+        start = [start[0] - 1, start[1]]
+        generate_rook_moves(start, finish, list, start_cell)
+      end
+    elsif x_diff > 0
+      if y_diff > 0
+        start = [start[0] + 1, start[1] + 1]
+        generate_queen_moves(start, finish, list, start_cell)
+      elsif y_diff < 0
+        start = [start[0] + 1, start[1] - 1]
+        generate_queen_moves(start, finish, list, start_cell)
+      elsif y_diff == 0
+        start = [start[0] + 1, start[1]]
+        generate_rook_moves(start, finish, list, start_cell)
+      end
+    elsif x_diff == 0
+      if y_diff > 0
+        start = [start[0], start[1] + 1]
+        generate_queen_moves(start, finish, list, start_cell)
+      elsif y_diff < 0
+        start = [start[0], start[1] - 1]
+        generate_queen_moves(start, finish, list, start_cell)
+      end
+
     end
 
   end

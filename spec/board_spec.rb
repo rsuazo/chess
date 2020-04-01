@@ -56,16 +56,29 @@ describe Board do
   #   end
   # end
 
-  describe '#generate_bishop_moves' do
-  it 'generate_bishop_moves recursive function' do
-    board = Board.new
-    start = [2,0]
-    finish = [0,2]
-    board.move_piece([1,1],[1,3])
+  # describe '#generate_bishop_moves' do
+  #   it 'generate_bishop_moves recursive function' do
+  #     board = Board.new
+  #     start = [2,0]
+  #     finish = [0,2]
+  #     board.move_piece([1,1],[1,3])
 
-    expect(board.generate_bishop_moves(start, finish)).to eq []
+  #     expect(board.generate_bishop_moves(start, finish)).to eq []
+  #   end
+  # end
+
+  describe '#generate_queen_moves' do
+    it 'generate_queen_moves recursive function' do
+      board = Board.new
+      start = [4,2]
+      finish = [5,3]
+      board.move_piece([4,1],[4,3])
+      board.move_piece([4,0],[4,2])
+
+
+      expect(board.generate_queen_moves(start, finish)).to eq []
+    end
   end
-end
 
 
   # TestCell = Struct.new(:value)
