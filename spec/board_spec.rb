@@ -67,18 +67,31 @@ describe Board do
   #   end
   # end
 
-  describe '#generate_queen_moves' do
-    it 'generate_queen_moves recursive function' do
-      board = Board.new
-      start = [4,2]
-      finish = [5,3]
-      board.move_piece([4,1],[4,3])
-      board.move_piece([4,0],[4,2])
+  # describe '#generate_queen_moves' do
+  #   it 'generate_queen_moves recursive function' do
+  #     board = Board.new
+  #     start = [3,0]
+  #     finish = [3,1]
+  #     board.move_piece([3,1],[3,3])
+  #     board.move_piece([4,0],[4,2])
 
 
-      expect(board.generate_queen_moves(start, finish)).to eq []
-    end
+  #     expect(board.generate_queen_moves(start, finish)).to eq []
+  #   end
+  # end
+
+  describe '#generate_king_moves' do
+  it 'generate_king_moves recursive function' do
+    board = Board.new
+    start = [3,0]
+    finish = [3,1]
+    board.move_piece([3,1],[3,3])
+    # board.move_piece([4,0],[4,2])
+
+
+    expect(board.generate_king_moves(start, finish)).to eq []
   end
+end
 
 
   # TestCell = Struct.new(:value)
