@@ -33,8 +33,8 @@ class Board
   end
 
   def game_over
-    return :winner if winner?
-    return :draw if draw?
+    # return :winner if winner?
+    # return :draw if draw?
     false
   end
 

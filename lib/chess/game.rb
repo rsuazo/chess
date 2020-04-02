@@ -7,12 +7,20 @@ class Game
     @current_player, @other_player = players.shuffle
   end
   
-  def solicit_move
-    "#{current_player.name}: Enter a number between 1 and 7 to make your move"
+  def solicit_start_move
+    "#{current_player.name}: Enter a square starting with A1 through H8 to choose your starting piece"
+  end
+
+  def solicit_finish_move
+    "#{current_player.name}: Enter a square starting with A1 through H8 to make your move"
   end
 
   def get_move(human_move = gets.chomp)
     human_move_to_coordinate(human_move)
+  end
+
+  def switch_players
+    @current_player, @other_player = @other_player, @current_player
   end
 
   def human_move_to_coordinate(human_move)
@@ -37,11 +45,14 @@ class Game
     while true
       board.formatted_grid
       puts ""
-      puts solicit_move
-      x, y = get_move
-      board.set_cell(x, y, current_player.color)
+      puts solicit_start_move
+      start = get_move
+      puts solicit_finish_move
+      finish = get_move
+      board.move_piece(start, finish)
+      # board.set_cell(x, y, current_player.color)
       if board.game_over
-        puts game_over_message
+        # puts game_over_message
         board.formatted_grid
         return
       else
