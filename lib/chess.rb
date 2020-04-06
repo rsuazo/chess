@@ -4,8 +4,8 @@ Dir[lib_path + "/chess/**/*.rb"].each { |file| require file }
 
 
 puts "Welcome to Chess"
-robert = Player.new({color: "X", name: "robert"})
-tiffany = Player.new({color: "O", name: "tiffany"})
+robert = Player.new({color: "white", name: "robert"})
+tiffany = Player.new({color: "black", name: "tiffany"})
 players = [robert, tiffany]
 game = Game.new(players)
 game.play

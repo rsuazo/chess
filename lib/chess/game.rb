@@ -16,14 +16,14 @@ class Game
   end
 
   def get_move(human_move = gets.chomp)
-    human_move_to_coordinate(human_move)
+    move_to_coordinate(human_move)
   end
 
   def switch_players
     @current_player, @other_player = @other_player, @current_player
   end
 
-  def human_move_to_coordinate(human_move)
+  def move_to_coordinate(human_move)
 
     letter_to_num = {
       'a' => 0,
@@ -42,15 +42,23 @@ class Game
 
   def play
     puts "#{current_player.name} has randomly been selected as the first player"
+    puts ''
     while true
-      board.formatted_grid
-      puts ""
-      puts solicit_start_move
-      start = get_move
-      puts solicit_finish_move
-      finish = get_move
-      board.move_piece(start, finish)
-      # board.set_cell(x, y, current_player.color)
+
+      loop do
+
+        board.formatted_grid
+        puts ''
+        puts solicit_start_move
+        start = get_move
+        puts solicit_finish_move
+        finish = get_move
+        
+        break if board.move_piece(start, finish, current_player.color)
+        
+        puts "#{current_player.name}, that is an invalid move, please try again!"
+      end
+
       if board.game_over
         # puts game_over_message
         board.formatted_grid
@@ -62,5 +70,3 @@ class Game
   end
   
 end
-
-

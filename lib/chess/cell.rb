@@ -73,5 +73,4 @@ class Cell
     list
   end
 
-
 end

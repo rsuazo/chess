@@ -83,8 +83,8 @@ class Board
     }
   end
 
-  def move_piece(start, finish)
-    if valid_move?(start, finish)
+  def move_piece(start, finish, color)
+    if valid_move?(start, finish, color)
       set_cell(*finish, get_cell(*start).value, get_cell(*start).color)
       set_cell(*start, '', '')
       true
@@ -93,13 +93,14 @@ class Board
     end
   end
 
-  def valid_move?(start, finish)
+  def valid_move?(start, finish, color)
     # first grab the cell in question
     x = get_cell(*start)
     y = get_cell(*finish)
 
     #if value of start is empty, false
     return false if x.value == ''
+    return false if x.color != color
 
     case x.value
     when pieces[:black_pawn]
@@ -209,15 +210,12 @@ class Board
     x_diff = finish[0] - start[0]
     y_diff = finish[1] - start[1]
 
-    
     return list if !valid?(*start) || !valid?(*finish)
     return list if x_diff != 0 && y_diff != 0
-
-
+    
     list << get_cell(*start)
 
     return list if get_cell(*start).value != '' && get_cell(*start) != start_cell
-
 
     return list if start == finish
 
